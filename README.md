@@ -19,4 +19,4 @@ A Python tool that uses AI to detect buttons on the screen and click them automa
 - Ensure all required dependencies are installed (e.g., `pyautogui`, `colorama`).  
 
 ## 📷 Screenshot
-![](https://i.ibb.co/1GDg9cv3/nglexample.png)
+![NGL Example](https://i.ibb.co/1GDg9cv3/nglexample.png)
