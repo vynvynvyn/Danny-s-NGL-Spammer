@@ -1,6 +1,6 @@
 @echo off
 title NGL Spammer || Danny
-pip intstall -r requirements.txt
+pip intstall requests
 
 cls
 

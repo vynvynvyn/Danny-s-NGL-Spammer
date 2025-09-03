@@ -1,5 +1,4 @@
-import pyautogui
-import webbrowser
+import requests
 import time
 import colorama
 from colorama import Fore, Style
@@ -20,35 +19,26 @@ print(Fore.LIGHTGREEN_EX + ascii_art)
 
 print(Fore.MAGENTA + "Welcome to NGL Spammer!,\nIf this tool doesn't detect buttons, please replace images.")
 
-def findImage(image_path, confidence=0.8):
-    position = pyautogui.locateOnScreen(image_path, confidence=confidence)
-    if position:
-        return pyautogui.center(position)
-    return None
+requestUrl = "https://ngl.link/api/submit"
 
 while True:
-    url = input(Fore.LIGHTBLUE_EX + "Enter NGL Link: " + Fore.WHITE)
+    USERNAME = input(Fore.LIGHTBLUE_EX + "Enter NGL Username: " + Fore.WHITE)
     text = input(Fore.LIGHTBLUE_EX + "Enter Message: " + Fore.WHITE)
     quantifier = int(input(Fore.LIGHTBLUE_EX + "Enter Message Amount: " + Fore.WHITE))
 
-    if url and text and quantifier > 0:
-        webbrowser.open(url)
-        time.sleep(1)
-        for i in range(quantifier - 1): 
-            pyautogui.moveTo(945,245)
-            pyautogui.click()
-            pyautogui.write(text)
+    header = {
+        'username': USERNAME,
+        'question': text,
+        'deviceId': '',
+        'gameSlug': '',
+        'referrer': ''
+    }
 
-            submit= findImage('Images/sendbtn.png')
-            if submit:
-                pyautogui.moveTo(submit)
-                pyautogui.click()
-                time.sleep(1)
-                newmsg = findImage('Images/newmsg.png')
-                if newmsg:
-                    pyautogui.moveTo(newmsg)
-                    pyautogui.click()
-                    print(f"{Fore.YELLOW}Sent {i + 1} messages...")
-                    time.sleep(0.5)
+    for i in range(quantifier):
+        try:
+            response = requests.post(requestUrl, data=header, timeout=10)
+            print(Fore.YELLOW + f"Sent {i + 1}/{quantifier} messages to {USERNAME}")
+        except requests.exceptions.RequestException as e:
+            print(Fore.red + e)
 
-        print(f"{Fore.LIGHTGREEN_EX}Sent {quantifier} messages to {url}.")
+    print(Fore.GREEN + "Completed spamming to " + USERNAME)
